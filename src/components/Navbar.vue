@@ -1,0 +1,47 @@
+<template>
+  <nav class="px-17 py-6 bg-transparent z-50">
+    <div class="flex justify-between items-center">
+      <!-- logo -->
+      <img
+        src="../assets/imgs/logo.png"
+        alt="logo"
+        class="w-10 cursor-pointer"
+      />
+
+      <div class="flex justify-center items-center gap-2.5">
+         <!-- shopping bag -->
+        <div
+          class="bg-[var(--blue)] w-8 h-8 rounded-full flex justify-center items-center cursor-pointer"
+        >
+          <svg
+            width="18px"
+            height="18px"
+            fill="white"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 640 640"
+          >
+            <path
+              d="M256 144C256 108.7 284.7 80 320 80C355.3 80 384 108.7 384 144L384 192L256 192L256 144zM208 192L144 192C117.5 192 96 213.5 96 240L96 448C96 501 139 544 192 544L448 544C501 544 544 501 544 448L544 240C544 213.5 522.5 192 496 192L432 192L432 144C432 82.1 381.9 32 320 32C258.1 32 208 82.1 208 144L208 192zM232 240C245.3 240 256 250.7 256 264C256 277.3 245.3 288 232 288C218.7 288 208 277.3 208 264C208 250.7 218.7 240 232 240zM384 264C384 250.7 394.7 240 408 240C421.3 240 432 250.7 432 264C432 277.3 421.3 288 408 288C394.7 288 384 277.3 384 264z"
+            />
+          </svg>
+        </div>
+         <!-- menu icon -->
+        <svg class="cursor-pointer" width="24px" height="24px" fill="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path
+            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
+          />
+        </svg>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  setup() {
+    return {};
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>
