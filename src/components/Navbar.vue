@@ -9,7 +9,7 @@
       />
 
       <div class="flex justify-center items-center gap-2.5">
-         <!-- shopping bag -->
+        <!-- shopping bag -->
         <div
           class="bg-[var(--blue)] w-8 h-8 rounded-full flex justify-center items-center cursor-pointer"
         >
@@ -25,8 +25,15 @@
             />
           </svg>
         </div>
-         <!-- menu icon -->
-        <svg class="cursor-pointer" width="24px" height="24px" fill="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <!-- menu icon -->
+        <svg
+          class="cursor-pointer"
+          width="24px"
+          height="24px"
+          fill="black"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
           <path
             d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
           />
@@ -36,12 +43,36 @@
   </nav>
 </template>
 
-<script>
-export default {
-  setup() {
-    return {};
-  },
-};
-</script>
+<script setup>
+import { gsap } from "gsap";
+import { onMounted } from "vue";
 
-<style lang="scss" scoped></style>
+onMounted(() => {
+  // Navbar slide down animation
+  gsap.from("nav", {
+    y: -100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+  });
+
+  // Logo animation
+  gsap.from(".logo", {
+    scale: 0,
+    rotation: -180,
+    duration: 1,
+    ease: "back.out(1.7)",
+    delay: 0.3,
+  });
+
+  // Menu items stagger
+  gsap.from(".menu-item", {
+    y: -20,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: "power2.out",
+    delay: 0.5,
+  });
+});
+</script>

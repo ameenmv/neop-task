@@ -15,7 +15,17 @@
         </p>
       </div>
       <div class="mt-12 overflow-hidden relative w-full">
+        <div v-if="productStore.isLoading" class="text-center py-8">
+          Loading...
+        </div>
+        <div
+          v-else-if="productStore.error"
+          class="text-center py-8 text-red-500"
+        >
+          Error: {{ productStore.error }}
+        </div>
         <TransitionGroup
+          v-else
           name="product"
           tag="div"
           class="flex gap-7 justify-center"
@@ -23,7 +33,8 @@
           <div
             v-for="product in displayedProducts"
             :key="product.id"
-            class="w-64 p-4 border rounded-lg"
+            @click="goToProductDetails(product.id)"
+            class="w-64 p-4 border rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
           >
             <img
               :src="product.image"
@@ -66,6 +77,11 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useProductStore } from "../stores/product";
+
+const router = useRouter();
+const productStore = useProductStore();
 
 const categories = ref([
   "All categories",
@@ -75,26 +91,23 @@ const categories = ref([
   "Coffee equipment",
 ]);
 const activeIndex = ref(0);
-const products = ref([]);
 
 const displayedProducts = computed(() => {
   if (activeIndex.value === 0) {
-    // Show first 4 products for "All categories"
-    return products.value.slice(0, 4);
+    return productStore.products.slice(0, 4);
   } else {
-    // Show 4 products based on the category index
     const start = activeIndex.value * 4;
     const end = start + 4;
-    return products.value.slice(start, end);
+    return productStore.products.slice(start, end);
   }
 });
 
+const goToProductDetails = (id) => {
+  router.push({ name: "ProductDetails", params: { id } });
+};
+
 onMounted(() => {
-  fetch("https://fakestoreapi.com/products")
-    .then((res) => res.json())
-    .then((data) => {
-      products.value = data;
-    });
+  productStore.fetchProducts();
 });
 </script>
 

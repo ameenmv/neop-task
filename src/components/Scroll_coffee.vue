@@ -1,7 +1,7 @@
 <template>
   <Swiper
     :modules="[Autoplay]"
-    :slides-per-view="7"
+    :slides-per-view="8"
     :space-between="30"
     :loop="true"
     :autoplay="{

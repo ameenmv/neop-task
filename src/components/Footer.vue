@@ -79,11 +79,46 @@
         </div>
       </div>
     </div>
-    <img class="absolute" src="../assets/imgs/coffee3.png" alt="">
+    <img
+      class="absolute top-[-60%] right-6"
+      src="../assets/imgs/coffee3.png"
+      alt=""
+    />
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { onMounted } from "vue";
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(() => {
+  gsap.from("footer", {
+    scrollTrigger: {
+      trigger: "footer",
+      start: "top 90%",
+    },
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power2.out",
+  });
+
+  gsap.from("footer > *", {
+    scrollTrigger: {
+      trigger: "footer",
+      start: "top 85%",
+    },
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.15,
+    ease: "power2.out",
+  });
+});
+</script>
 
 <style lang="scss" scoped>
 footer {
