@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-16 flex justify-center items-center">
+  <footer class="py-16 flex justify-center items-center relative">
     <div class="flex w-full flex-col justify-center items-center max-w-[650px]">
       <div class="flex justify-between w-full">
         <div class="flex flex-col gap-4">
@@ -79,6 +79,7 @@
         </div>
       </div>
     </div>
+    <img class="absolute" src="../assets/imgs/coffee3.png" alt="">
   </footer>
 </template>
 
