@@ -1,29 +1,31 @@
 <template>
-  <section class="h-screen relative">
+  <section class="lg:h-screen relative">
     <Navbar />
-    <div class="h-full w-full pl-36 flex justify-between items-center pb-20">
+    <div
+      class="h-full w-full lg:pl-36 flex lg:flex-row flex-col justify-between items-center pb-20"
+    >
       <!-- text -->
-      <div class="flex flex-col gap-5 w-1/2 mb-10">
+      <div class="flex flex-col gap-5 lg:w-1/2 lg:mt-0 mt-10 lg:mb-10">
         <!-- title -->
         <h1
-          class="text-8xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
+          class="lg:text-8xl text-5xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
         >
           Coffee
           <br />
           &Shop
         </h1>
         <!-- desc -->
-        <p class="max-w-64 text-[#292625] text-base">
+        <p class="max-w-64 text-[#292625] lg:text-base text-sm">
           Get your ordered (better) coffee delivered to you if you want.
         </p>
         <!-- button & icon -->
         <div class="flex justify-center items-center gap-3 w-fit">
           <button
-            class="py-3 px-7 rounded-2xl border border-[#6F4336] text-[#6f4336] text-base font-medium flex justify-center items-center gap-4"
+            class="lg:py-3 py-2 lg:px-7 px-5 rounded-2xl border border-[#6F4336] text-[#6f4336] lg:text-base text-sm font-medium flex justify-center items-center gap-4"
           >
             SHOP 20% OFF
             <svg
-              class="w-4 h-4 rotate-45"
+              class="lg:w-4 w-3 lg:h-4 h-3 rotate-45"
               fill="#6f4336"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -34,11 +36,10 @@
             </svg>
           </button>
           <div
-            class="bg-[var(--blue)] w-12 h-12 rounded-full flex justify-center items-center cursor-pointer"
+            class="bg-[var(--blue)] lg:w-12 w-10 lg:h-12 h-10 rounded-full flex justify-center items-center cursor-pointer"
           >
             <svg
-              width="28px"
-              height="28px"
+              class="lg:w-7 lg:h-7 w-5 h=5"
               fill="white"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"
@@ -51,7 +52,7 @@
         </div>
       </div>
       <!-- swiper -->
-      <div class="product-slider-container !w-1/2">
+      <div class="product-slider-container lg:!w-1/2">
         <Swiper
           :modules="modules"
           centeredSlides="false"
@@ -92,7 +93,7 @@
 
     <!-- mask img -->
     <img
-      class="absolute right-0 top-0 w-[1000px] z-[-1] pointer-events-none"
+      class="absolute right-0 top-0 w-[50%] z-[-1] pointer-events-none lg:block hidden"
       :src="mask"
       alt=""
     />
@@ -133,7 +134,6 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   width: 100%;
   max-width: 1300px;
   margin: 0 auto;
-  padding: 3rem 0;
 }
 
 .swiper-slide {
@@ -186,6 +186,12 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   transform: translateY(0);
   pointer-events: none;
 }
+@media(max-width: 1024px) {
+  .bg-shape {
+    width: 150px;
+    height: 150px;
+  }
+}
 
 .swiper-slide-active .bg-shape {
   width: 500px;
@@ -193,6 +199,12 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   background: linear-gradient(90deg, #004876 0%, #1e71a6 100%);
   transform: translateY(-8px);
   z-index: 1;
+}
+@media (max-width: 1024px) {
+  .swiper-slide-active .bg-shape {
+    width: 300px;
+    height: 300px;
+  }
 }
 
 .coffee-img {
@@ -219,6 +231,11 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   transform: scale(1.03) translateY(-6px);
   opacity: 1;
   width: 600px;
+}
+@media( max-width: 1024px) {
+  .swiper-slide-active .coffee-img {
+    width: 350px;
+  }
 }
 
 .nav-controls {
