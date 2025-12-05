@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "about": "من نحن",
+    "contact": "اتصل بنا"
+  },
+  "hero": {
+    "title": "قهوة",
+    "subtitle": "ومتجر",
+    "description": "احصل على قهوتك المفضلة مع التوصيل إلى باب منزلك.",
+    "shopButton": "تسوق بخصم 20%"
+  },
+  "products": {
+    "ourProducts": "منتجاتنا",
+    "specialToTry": "مميز للتجربة",
+    "categories": {
+      "all": "جميع الفئات",
+      "offers": "عروض خاصة",
+      "bestSeller": "الأكثر مبيعاً",
+      "coffee": "قهوة",
+      "equipment": "معدات القهوة"
+    },
+    "loading": "جاري التحميل...",
+    "error": "خطأ"
+  },
+  "productDetails": {
+    "backButton": "رجوع",
+    "description": "الوصف",
+    "quantity": "الكمية",
+    "addToCart": "أضف للسلة",
+    "reviews": "تقييمات العملاء",
+    "notFound": "المنتج غير موجود"
+  },
+  "footer": {
+    "menu": "القائمة",
+    "getInspired": "احصل على الإلهام",
+    "ourProducts": "منتجاتنا",
+    "betterWorld": "من أجل عالم أفضل",
+    "contact": "اتصل بنا",
+    "blog": "المدونة",
+    "location": "موقع المقهى",
+    "contactUs": "اتصل بنا",
+    "contactDescription": "هل لديك سؤال؟ أرسله لنا!",
+    "privacyPolicy": "سياسة الخصوصية"
+  }
+}

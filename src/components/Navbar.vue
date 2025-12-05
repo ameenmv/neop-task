@@ -1,17 +1,23 @@
 <template>
-  <nav class="px-17 py-6 bg-transparent z-50">
-    <div class="flex justify-between items-center">
+  <nav
+    class="px-4 sm:px-8 lg:px-17 py-6 bg-transparent z-50 fixed top-0 left-0 right-0 backdrop-blur-sm"
+  >
+    <div class="flex justify-between items-center max-w-[1400px] mx-auto">
       <!-- logo -->
       <img
+        @click="goToHome"
         src="../assets/imgs/logo.png"
         alt="logo"
-        class="w-10 cursor-pointer"
+        class="w-10 sm:w-12 cursor-pointer hover:scale-110 transition-transform duration-300"
       />
 
       <div class="flex justify-center items-center gap-2.5">
+        <!-- Language Switcher -->
+        <LanguageSwitcher />
+
         <!-- shopping bag -->
         <div
-          class="bg-[var(--blue)] w-8 h-8 rounded-full flex justify-center items-center cursor-pointer"
+          class="bg-[var(--blue)] w-8 h-8 sm:w-10 sm:h-10 rounded-full flex justify-center items-center cursor-pointer hover:scale-110 transition-all duration-300 hover:shadow-lg"
         >
           <svg
             width="18px"
@@ -25,9 +31,11 @@
             />
           </svg>
         </div>
+
         <!-- menu icon -->
         <svg
-          class="cursor-pointer"
+          @click="toggleMenu"
+          class="cursor-pointer hover:opacity-70 transition-opacity duration-300"
           width="24px"
           height="24px"
           fill="black"
@@ -40,39 +48,179 @@
         </svg>
       </div>
     </div>
+
+    <!-- Mobile Menu -->
+    <transition name="slide-fade">
+      <div
+        v-if="isMenuOpen"
+        class="mobile-menu fixed top-[72px] left-0 right-0 bg-white shadow-lg z-40 overflow-hidden"
+      >
+        <ul class="flex flex-col p-6 gap-4">
+          <li
+            @click="handleMenuClick('/')"
+            class="menu-item text-lg font-semibold text-gray-800 cursor-pointer hover:text-[var(--blue)] transition-colors duration-300 py-2 border-b border-gray-100"
+          >
+            {{ t("nav.home") }}
+          </li>
+          <li
+            @click="handleMenuClick('/shop')"
+            class="menu-item text-lg font-semibold text-gray-800 cursor-pointer hover:text-[var(--blue)] transition-colors duration-300 py-2 border-b border-gray-100"
+          >
+            {{ t("nav.shop") }}
+          </li>
+          <li
+            class="menu-item text-lg font-semibold text-gray-800 cursor-pointer hover:text-[var(--blue)] transition-colors duration-300 py-2 border-b border-gray-100"
+          >
+            {{ t("nav.about") }}
+          </li>
+          <li
+            class="menu-item text-lg font-semibold text-gray-800 cursor-pointer hover:text-[var(--blue)] transition-colors duration-300 py-2"
+          >
+            {{ t("nav.contact") }}
+          </li>
+        </ul>
+      </div>
+    </transition>
+
+    <!-- Overlay -->
+    <transition name="fade">
+      <div
+        v-if="isMenuOpen"
+        @click="toggleMenu"
+        class="fixed inset-0 bg-black bg-opacity-30 z-30 top-[72px]"
+      ></div>
+    </transition>
   </nav>
 </template>
 
 <script setup>
-import { gsap } from "gsap";
-import { onMounted } from "vue";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import LanguageSwitcher from "./LanguageSwitcher.vue";
 
-onMounted(() => {
-  // Navbar slide down animation
-  gsap.from("nav", {
-    y: -100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
-  });
+const router = useRouter();
+const { t } = useI18n();
+const isMenuOpen = ref(false);
 
-  // Logo animation
-  gsap.from(".logo", {
-    scale: 0,
-    rotation: -180,
-    duration: 1,
-    ease: "back.out(1.7)",
-    delay: 0.3,
-  });
+const goToHome = () => {
+  router.push("/");
+  isMenuOpen.value = false;
+};
 
-  // Menu items stagger
-  gsap.from(".menu-item", {
-    y: -20,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.1,
-    ease: "power2.out",
-    delay: 0.5,
-  });
-});
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
+
+const handleMenuClick = (path) => {
+  router.push(path);
+  isMenuOpen.value = false;
+};
 </script>
+
+<style scoped>
+/* Mobile Menu Animations */
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-fade-enter-from {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+/* Overlay Fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* RTL Support */
+[dir="rtl"] .mobile-menu {
+  text-align: right;
+}
+
+[dir="rtl"] .menu-item {
+  border-right: none;
+  border-left: 3px solid transparent;
+}
+
+[dir="rtl"] .menu-item:hover {
+  border-left-color: var(--blue);
+}
+
+/* Backdrop blur for navbar */
+nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Mobile menu styling */
+.mobile-menu {
+  max-height: calc(100vh - 72px);
+  overflow-y: auto;
+}
+
+/* Scrollbar styling */
+.mobile-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.mobile-menu::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 4px;
+}
+
+.mobile-menu::-webkit-scrollbar-thumb:hover {
+  background: #003558;
+}
+
+/* Menu item hover effect */
+.menu-item {
+  position: relative;
+}
+
+.menu-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 3px;
+  background: var(--blue);
+  transition: width 0.3s ease;
+}
+
+[dir="rtl"] .menu-item::before {
+  left: auto;
+  right: 0;
+}
+
+.menu-item:hover::before {
+  width: 30px;
+}
+
+[dir="rtl"] .menu-item:hover::before {
+  width: 30px;
+}
+</style>

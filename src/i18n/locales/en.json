@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Coffee",
+    "subtitle": "&Shop",
+    "description": "Get your ordered (better) coffee delivered to you if you want.",
+    "shopButton": "SHOP 20% OFF"
+  },
+  "products": {
+    "ourProducts": "Our products",
+    "specialToTry": "Special to Try",
+    "categories": {
+      "all": "All categories",
+      "offers": "Special offers",
+      "bestSeller": "Best seller",
+      "coffee": "Coffee",
+      "equipment": "Coffee equipment"
+    },
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "productDetails": {
+    "backButton": "Back",
+    "description": "Description",
+    "quantity": "Quantity",
+    "addToCart": "Add to Cart",
+    "reviews": "Customer Reviews",
+    "notFound": "Product not found"
+  },
+  "footer": {
+    "menu": "Menu",
+    "getInspired": "Get inspired",
+    "ourProducts": "Our products",
+    "betterWorld": "For a better world",
+    "contact": "Contact",
+    "blog": "Blog",
+    "location": "Cafe Location",
+    "contactUs": "Contact",
+    "contactDescription": "Do you have a question? Send it to us!",
+    "privacyPolicy": "Privacy policy"
+  }
+}

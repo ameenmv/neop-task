@@ -1,47 +1,57 @@
 <template>
-  <section class="py-8">
+  <section class="py-8 px-4">
     <div class="flex justify-center items-center flex-col gap-2">
-      <p class="text-lg text-[#3B2F2F]">Our products</p>
-      <h2 class="text-[32px] font-bold text-[#3B2F2F]">Special to Try</h2>
-      <div class="flex justify-center items-center gap-12">
+      <p class="text-base md:text-lg text-[#3B2F2F]">
+        {{ t("products.ourProducts") }}
+      </p>
+      <h2 class="text-2xl md:text-[32px] font-bold text-[#3B2F2F]">
+        {{ t("products.specialToTry") }}
+      </h2>
+      <div
+        class="flex flex-wrap justify-center items-center gap-4 md:gap-8 lg:gap-12 mt-4"
+      >
         <p
-          v-for="(category, index) in categories"
+          v-for="(category, index) in translatedCategories"
           :key="index"
           @click="activeIndex = index"
           :class="{ active: activeIndex === index }"
-          class="font-medium text-xl cursor-pointer text"
+          class="font-medium text-sm md:text-lg lg:text-xl cursor-pointer text"
         >
           {{ category }}
         </p>
       </div>
-      <div class="mt-12 overflow-hidden relative w-full">
+      <div class="mt-8 md:mt-12 overflow-hidden relative w-full">
         <div v-if="productStore.isLoading" class="text-center py-8">
-          Loading...
+          {{ t("products.loading") }}
         </div>
         <div
           v-else-if="productStore.error"
           class="text-center py-8 text-red-500"
         >
-          Error: {{ productStore.error }}
+          {{ t("products.error") }}: {{ productStore.error }}
         </div>
         <TransitionGroup
           v-else
           name="product"
           tag="div"
-          class="flex gap-7 justify-center"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-7 justify-items-center px-4"
         >
           <div
             v-for="product in displayedProducts"
             :key="product.id"
             @click="goToProductDetails(product.id)"
-            class="w-64 p-4 border rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+            class="w-full max-w-[280px] p-4 border rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105"
           >
-            <img
-              :src="product.image"
-              :alt="product.title"
-              class="w-full h-48 object-contain"
-            />
-            <h3 class="mt-4 font-semibold text-lg truncate">
+            <div
+              class="w-full h-40 sm:h-48 flex items-center justify-center bg-gray-50 rounded-lg"
+            >
+              <img
+                :src="product.image"
+                :alt="product.title"
+                class="w-full h-full object-contain p-4"
+              />
+            </div>
+            <h3 class="mt-4 font-semibold text-base md:text-lg truncate">
               {{ product.title }}
             </h3>
             <div v-if="product.rating" class="flex items-center gap-2 mt-2">
@@ -49,7 +59,7 @@
                 <svg
                   v-for="star in 5"
                   :key="star"
-                  class="w-5 h-5"
+                  class="w-4 h-4 md:w-5 md:h-5"
                   :class="
                     star <= Math.round(product.rating.rate)
                       ? 'text-yellow-400'
@@ -63,11 +73,13 @@
                   />
                 </svg>
               </div>
-              <span class="text-sm text-gray-600">
+              <span class="text-xs md:text-sm text-gray-600">
                 {{ product.rating.rate }} ({{ product.rating.count }})
               </span>
             </div>
-            <p class="text-gray-600 mt-2">${{ product.price }}</p>
+            <p class="text-gray-600 mt-2 font-bold text-lg md:text-xl">
+              ${{ product.price }}
+            </p>
           </div>
         </TransitionGroup>
       </div>
@@ -77,19 +89,26 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useProductStore } from "../stores/product";
 
 const router = useRouter();
 const productStore = useProductStore();
+const { t } = useI18n();
 
 const categories = ref([
-  "All categories",
-  "Special offers",
-  "Best seller",
-  "Coffee",
-  "Coffee equipment",
+  "products.categories.all",
+  "products.categories.offers",
+  "products.categories.bestSeller",
+  "products.categories.coffee",
+  "products.categories.equipment",
 ]);
+
+const translatedCategories = computed(() => {
+  return categories.value.map((cat) => t(cat));
+});
+
 const activeIndex = ref(0);
 
 const displayedProducts = computed(() => {
@@ -115,18 +134,22 @@ onMounted(() => {
 .text {
   color: #7c6a6a;
   transition: all 0.3s ease;
+  padding: 0.5rem;
+  white-space: nowrap;
 }
+
 .active {
   color: #004876;
   transition: all 0.3s ease;
   position: relative;
 }
+
 .active::after {
   content: "";
   position: absolute;
-  bottom: -6px;
-  left: 0;
-  right: 0;
+  bottom: 2px;
+  left: 0.5rem;
+  right: 0.5rem;
   height: 2px;
   background-color: #004876;
   border-radius: 2px;
@@ -146,12 +169,38 @@ onMounted(() => {
   transform: translateX(50px);
 }
 
+[dir="rtl"] .product-enter-from {
+  transform: translateX(-50px);
+}
+
 .product-leave-to {
   opacity: 0;
   transform: translateX(-50px);
 }
 
+[dir="rtl"] .product-leave-to {
+  transform: translateX(50px);
+}
+
 .product-move {
   transition: transform 0.4s ease;
+}
+
+@media (max-width: 640px) {
+  .text {
+    font-size: 0.875rem;
+    padding: 0.375rem;
+  }
+
+  .active::after {
+    left: 0.375rem;
+    right: 0.375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .text {
+    font-size: 0.75rem;
+  }
 }
 </style>

@@ -6,32 +6,35 @@
     <div id="landing-smooth-content">
       <Navbar />
       <div
-        class="landing-container h-full w-full pl-36 flex justify-between items-center pb-20"
+        class="landing-container h-full w-full px-4 sm:px-8 lg:px-36 flex flex-col lg:flex-row justify-between items-center pb-20 gap-8"
       >
         <!-- text -->
-        <div class="content-left flex flex-col gap-5 w-1/2 mb-10">
+        <div
+          class="content-left flex flex-col gap-5 w-full lg:w-1/2 mb-10 items-center lg:items-start text-center lg:text-start"
+        >
           <!-- title -->
           <h1
-            class="main-title text-8xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
+            class="main-title text-5xl sm:text-6xl lg:text-8xl leading-[102%] font-bold text-[var(--blue)] tracking-[4px] sm:tracking-[8px]"
           >
-            <span class="title-line-1">Coffee</span>
+            <span class="title-line-1">{{ t("hero.title") }}</span>
             <br />
-            <span class="title-line-2">&Shop</span>
+            <span class="title-line-2">{{ t("hero.subtitle") }}</span>
           </h1>
           <!-- desc -->
           <p class="description max-w-64 text-[#292625] text-base">
-            Get your ordered (better) coffee delivered to you if you want.
+            {{ t("hero.description") }}
           </p>
           <!-- button & icon -->
           <div
-            class="cta-container flex justify-center items-center gap-3 w-fit"
+            class="cta-container flex justify-center lg:justify-start items-center gap-3 w-fit"
           >
             <button
+              @click="goToShop"
               class="shop-button py-3 px-7 rounded-2xl border border-[#6F4336] text-[#6f4336] text-base font-medium flex justify-center items-center gap-4 relative overflow-hidden group"
             >
-              <span class="relative z-10">SHOP 20% OFF</span>
+              <span class="relative z-10">{{ t("hero.shopButton") }}</span>
               <svg
-                class="arrow-icon w-4 h-4 rotate-45 relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                class="arrow-icon w-4 h-4 rotate-45 rtl:rotate-[-135deg] relative z-10 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
                 fill="#6f4336"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -41,21 +44,21 @@
                 />
               </svg>
               <span
-                class="button-bg absolute inset-0 bg-[#6F4336] transform -translate-x-full transition-transform duration-300 group-hover:translate-x-0"
+                class="button-bg absolute inset-0 bg-[#6F4336] transform -translate-x-full rtl:translate-x-full transition-transform duration-300 group-hover:translate-x-0"
               ></span>
             </button>
             <div
               class="cart-icon bg-[var(--blue)] w-12 h-12 rounded-full flex justify-center items-center cursor-pointer"
             >
               <svg
-                width="28px"
-                height="28px"
+                width="20px"
+                height="20px"
                 fill="white"
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"
+                viewBox="0 0 576 512"
               >
                 <path
-                  d="M256 144C256 108.7 284.7 80 320 80C355.3 80 384 108.7 384 144L384 192L256 192L256 144zM208 192L144 192C117.5 192 96 213.5 96 240L96 448C96 501 139 544 192 544L448 544C501 544 544 501 544 448L544 240C544 213.5 522.5 192 496 192L432 192L432 144C432 82.1 381.9 32 320 32C258.1 32 208 82.1 208 144L208 192zM232 240C245.3 240 256 250.7 256 264C256 277.3 245.3 288 232 288C218.7 288 208 277.3 208 264C208 250.7 218.7 240 232 240zM384 264C384 250.7 394.7 240 408 240C421.3 240 432 250.7 432 264C432 277.3 421.3 288 408 288C394.7 288 384 277.3 384 264z"
+                  d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
                 />
               </svg>
             </div>
@@ -63,20 +66,20 @@
         </div>
 
         <!-- swiper -->
-        <div class="product-slider-container !w-1/2">
+        <div class="product-slider-container w-full lg:!w-1/2">
           <Swiper
             @swiper="onSwiperInit"
-            @slideChange="onSlideChange"
             :modules="modules"
-            centeredSlides="false"
-            :slides-per-view="2"
-            :space-between="0"
-            speed="1000"
-            grab-cursor="true"
+            :centeredSlides="false"
+            :slidesPerView="2"
+            :spaceBetween="0"
+            :speed="1000"
+            :grabCursor="true"
             :navigation="{
               nextEl: '.custom-next',
               prevEl: '.custom-prev',
             }"
+            :dir="currentDir"
             class="mySwiper"
           >
             <SwiperSlide
@@ -98,15 +101,21 @@
           </Swiper>
 
           <div class="nav-controls">
-            <button class="custom-prev" aria-label="Previous slide">←</button>
-            <button class="custom-next" aria-label="Next slide">→</button>
+            <button class="custom-prev" aria-label="Previous slide">
+              <span class="ltr:inline rtl:hidden">←</span>
+              <span class="rtl:inline ltr:hidden">→</span>
+            </button>
+            <button class="custom-next" aria-label="Next slide">
+              <span class="ltr:inline rtl:hidden">→</span>
+              <span class="rtl:inline ltr:hidden">←</span>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- mask img -->
       <img
-        class="mask-img absolute right-0 top-0 w-[1000px] z-[-1] pointer-events-none"
+        class="mask-img absolute right-0 rtl:right-auto rtl:left-0 top-0 w-[600px] lg:w-[1000px] z-[-1] pointer-events-none transform rtl:scale-x-[-1]"
         :src="mask"
         alt=""
       />
@@ -115,342 +124,44 @@
 </template>
 
 <script setup>
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 
-import {
-  Autoplay,
-  EffectCoverflow,
-  Navigation,
-  Pagination,
-} from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 import "swiper/css";
-import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-gsap.registerPlugin(ScrollTrigger);
+const router = useRouter();
+const { t, locale } = useI18n();
+const modules = [Navigation, Pagination];
 
-const modules = [Navigation, Pagination, EffectCoverflow, Autoplay];
-
-import {
-  default as bag1,
-  default as bag2,
-  default as bag3,
-} from "../assets/imgs/coffee.png";
+import bag1 from "../assets/imgs/coffee.png";
 import mask from "../assets/imgs/mask.png";
+
+const currentDir = computed(() => (locale.value === "ar" ? "rtl" : "ltr"));
 
 const products = [
   { img: bag1, name: "Coffee 1" },
-  { img: bag2, name: "Coffee 2" },
-  { img: bag3, name: "Coffee 3" },
+  { img: bag1, name: "Coffee 2" },
+  { img: bag1, name: "Coffee 3" },
   { img: bag1, name: "Coffee 4" },
-  { img: bag2, name: "Coffee 5" },
+  { img: bag1, name: "Coffee 5" },
 ];
 
 const swiperInstance = ref(null);
 
 const onSwiperInit = (swiper) => {
   swiperInstance.value = swiper;
-  console.log("Swiper initialized:", swiper);
 };
 
-const onSlideChange = () => {
-  console.log("Slide changed");
-  // Animate slide change - أخف وأسرع
-  gsap.from(".swiper-slide-active .coffee-img", {
-    scale: 0.8,
-    opacity: 0,
-    duration: 0.5,
-    ease: "power2.out",
-    clearProps: "all",
-  });
-
-  gsap.from(".swiper-slide-active .bg-shape", {
-    scale: 0.8,
-    duration: 0.5,
-    ease: "power2.out",
-    clearProps: "all",
-  });
+const goToShop = () => {
+  router.push("/shop");
 };
-
-let masterTimeline;
-let animationCleanup = [];
-
-onMounted(() => {
-  setTimeout(() => {
-    // Master timeline for initial animations
-    masterTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    // Mask image parallax - بس مش للـ swiper
-    gsap.to(".mask-img", {
-      scrollTrigger: {
-        trigger: "#landing-smooth-wrapper",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-      y: 200,
-      rotation: 5,
-      scale: 1.1,
-      ease: "none",
-    });
-
-    // Title animation - split by lines
-    masterTimeline
-      .from(".title-line-1", {
-        x: -200,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-      })
-      .from(
-        ".title-line-2",
-        {
-          x: -200,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power4.out",
-        },
-        "-=0.8"
-      );
-
-    // Title floating animation
-    const titleFloat = gsap.to(".main-title", {
-      y: -10,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut",
-    });
-    animationCleanup.push(titleFloat);
-
-    // Description fade in
-    masterTimeline.from(
-      ".description",
-      {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-      },
-      "-=0.6"
-    );
-
-    // CTA buttons animation
-    masterTimeline.from(
-      ".shop-button",
-      {
-        scale: 0,
-        rotation: 360,
-        duration: 1,
-        ease: "elastic.out(1, 0.5)",
-      },
-      "-=0.4"
-    );
-
-    masterTimeline.from(
-      ".cart-icon",
-      {
-        scale: 0,
-        rotation: -360,
-        duration: 1,
-        ease: "elastic.out(1, 0.5)",
-      },
-      "-=0.8"
-    );
-
-    // Swiper container entrance - بس بدون scroll trigger
-    masterTimeline.from(
-      ".product-slider-container",
-      {
-        x: 200,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-      },
-      "-=1"
-    );
-
-    // Initial swiper slides animation
-    gsap.from(".swiper-slide", {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power2.out",
-      delay: 1,
-      clearProps: "all",
-    });
-
-    // Navigation buttons animation
-    gsap.from([".custom-prev", ".custom-next"], {
-      scale: 0,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.2,
-      ease: "back.out(1.7)",
-      delay: 1.5,
-    });
-
-    // Button hover effects
-    const shopButton = document.querySelector(".shop-button");
-    if (shopButton) {
-      shopButton.addEventListener("mouseenter", onShopButtonEnter);
-      shopButton.addEventListener("mouseleave", onShopButtonLeave);
-    }
-
-   
-
-    // Navigation buttons hover
-    document.querySelectorAll(".custom-prev, .custom-next").forEach((btn) => {
-      btn.addEventListener("mouseenter", () => onNavButtonEnter(btn));
-      btn.addEventListener("mouseleave", () => onNavButtonLeave(btn));
-    });
-
-    // Continuous animations for coffee images
-    const coffeeFloat = gsap.to(".coffee-img", {
-      y: -10,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: {
-        each: 0.3,
-        from: "start",
-      },
-    });
-    animationCleanup.push(coffeeFloat);
-
-    // Background shapes rotation
-    const shapeRotate = gsap.to(".bg-shape", {
-      rotation: 360,
-      duration: 30,
-      repeat: -1,
-      ease: "none",
-    });
-    animationCleanup.push(shapeRotate);
-
-    // Parallax effect on mouse move
-    const landingContainer = document.querySelector(".landing-container");
-    if (landingContainer) {
-      landingContainer.addEventListener("mousemove", onMouseMove);
-    }
-
-    // Scroll animation للـ content-left بس
-    gsap.to(".content-left", {
-      scrollTrigger: {
-        trigger: "#landing-smooth-wrapper",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-      y: -100,
-      opacity: 0.5,
-      ease: "none",
-    });
-
-    // شلنا الـ scroll animation للـ swiper خالص
-  }, 100);
-});
-
-const onShopButtonEnter = () => {
-  gsap.to(".shop-button", {
-    scale: 1.05,
-    boxShadow: "0 10px 30px rgba(111, 67, 54, 0.3)",
-    duration: 0.3,
-    ease: "power2.out",
-  });
-
-  gsap.to(".arrow-icon", {
-    x: 5,
-    duration: 0.3,
-    ease: "power2.out",
-  });
-};
-
-const onShopButtonLeave = () => {
-  gsap.to(".shop-button", {
-    scale: 1,
-    boxShadow: "0 0 0 rgba(111, 67, 54, 0)",
-    duration: 0.3,
-    ease: "power2.out",
-  });
-
-  gsap.to(".arrow-icon", {
-    x: 0,
-    duration: 0.3,
-    ease: "power2.out",
-  });
-};
-
-
-const onNavButtonEnter = (btn) => {
-  gsap.to(btn, {
-    scale: 1.15,
-    boxShadow: "0 8px 20px rgba(0, 72, 118, 0.3)",
-    duration: 0.3,
-    ease: "back.out(1.7)",
-  });
-};
-
-const onNavButtonLeave = (btn) => {
-  gsap.to(btn, {
-    scale: 1,
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-    duration: 0.3,
-    ease: "power2.out",
-  });
-};
-
-const onMouseMove = (e) => {
-  const { clientX, clientY } = e;
-  const { innerWidth, innerHeight } = window;
-
-  const xPos = (clientX / innerWidth - 0.5) * 20;
-  const yPos = (clientY / innerHeight - 0.5) * 20;
-
-  gsap.to(".main-title", {
-    x: xPos,
-    y: yPos,
-    duration: 1,
-    ease: "power2.out",
-  });
-
-  gsap.to(".mask-img", {
-    x: xPos * 2,
-    y: yPos * 2,
-    duration: 1.5,
-    ease: "power2.out",
-  });
-
-  gsap.to(".swiper-slide-active .coffee-img", {
-    x: -xPos * 0.5,
-    y: -yPos * 0.5,
-    duration: 1,
-    ease: "power2.out",
-  });
-};
-
-onUnmounted(() => {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-  gsap.killTweensOf("*");
-  animationCleanup.forEach((anim) => anim.kill());
-
-  const shopButton = document.querySelector(".shop-button");
-  if (shopButton) {
-    shopButton.removeEventListener("mouseenter", onShopButtonEnter);
-    shopButton.removeEventListener("mouseleave", onShopButtonLeave);
-  }
-
-  const landingContainer = document.querySelector(".landing-container");
-  if (landingContainer) {
-    landingContainer.removeEventListener("mousemove", onMouseMove);
-  }
-});
 </script>
 
 <style lang="scss" scoped>
@@ -466,23 +177,20 @@ onUnmounted(() => {
   position: relative;
 }
 
-.content-left {
-  will-change: transform, opacity;
+/* RTL Support */
+[dir="rtl"] .landing-container {
+  padding-right: 9rem;
+  padding-left: 1rem;
 }
 
-.main-title {
-  will-change: transform;
-  perspective: 1000px;
-}
-
-.title-line-1,
-.title-line-2 {
-  display: inline-block;
+@media (max-width: 1024px) {
+  [dir="rtl"] .landing-container {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
 }
 
 .shop-button {
-  will-change: transform;
-
   &:hover {
     .arrow-icon {
       fill: white;
@@ -498,13 +206,25 @@ onUnmounted(() => {
   z-index: 0;
 }
 
+[dir="rtl"] .button-bg {
+  transform: translateX(100%);
+}
+
+[dir="rtl"] .shop-button:hover .button-bg {
+  transform: translateX(0);
+}
+
 .cart-icon {
-  will-change: transform;
   box-shadow: 0 4px 15px rgba(0, 72, 118, 0.3);
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
+    transform: scale(1.1);
     box-shadow: 0 8px 25px rgba(0, 72, 118, 0.5);
+  }
+
+  svg {
+    pointer-events: none;
   }
 }
 
@@ -514,7 +234,6 @@ onUnmounted(() => {
   max-width: 1300px;
   margin: 0 auto;
   padding: 3rem 0;
-  // شلنا will-change عشان الـ scroll
 }
 
 .mySwiper {
@@ -573,7 +292,6 @@ onUnmounted(() => {
   transition: all 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
   background: linear-gradient(90deg, #6f4336 0%, #3b2f2f 100%);
   pointer-events: none;
-  will-change: transform;
   box-shadow: 0 10px 40px rgba(111, 67, 54, 0.3);
 }
 
@@ -591,11 +309,8 @@ onUnmounted(() => {
   object-fit: contain;
   z-index: 2;
   position: relative;
-  transition: transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 300ms ease, filter 300ms ease,
-    width 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
-  will-change: transform;
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
 }
 
@@ -606,7 +321,7 @@ onUnmounted(() => {
 }
 
 .swiper-slide-active .coffee-img {
-  transform: scale(1) translateY(-6px);
+  transform: scale(1);
   opacity: 1;
   width: 500px;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
@@ -625,6 +340,10 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
+[dir="rtl"] .nav-controls {
+  flex-direction: row-reverse;
+}
+
 .custom-prev,
 .custom-next {
   pointer-events: auto;
@@ -640,24 +359,24 @@ onUnmounted(() => {
   font-size: 1.4rem;
   font-weight: bold;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  will-change: transform;
+  transition: all 0.3s ease;
   color: #333;
 
   &:hover {
     background: linear-gradient(135deg, #004876 0%, #1e71a6 100%);
     color: white;
     border-color: #004876;
+    transform: scale(1.1);
   }
 
   &:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
 }
 
 .mask-img {
-  will-change: transform;
   opacity: 0.9;
+  transition: transform 0.3s ease;
 }
 
 /* Responsive */
@@ -682,6 +401,11 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  .landing-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .main-title {
     font-size: 3rem;
   }

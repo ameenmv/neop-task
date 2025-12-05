@@ -1,43 +1,91 @@
 <template>
-  <footer class="py-16 flex justify-center items-center relative">
+  <footer
+    class="py-8 md:py-12 lg:py-16 px-4 md:px-6 lg:px-8 flex justify-center items-center relative overflow-hidden"
+  >
     <div class="flex w-full flex-col justify-center items-center max-w-[650px]">
-      <div class="flex justify-between w-full">
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">Menu</h2>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Get inspired</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Our products</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">For a better world</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Contact</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Blog</p>
-        </div>
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">CafeLocatotion</h2>
-          <p class="font-medium text-sm text-[#FFFFFF95]">lorem ipsum</p>
-        </div>
-        <div class="flex flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">Contact</h2>
-          <p class="font-medium text-sm text-[#FFFFFF95] max-w-32">
-            Do you have a question? Send it to us!
+      <!-- Footer Links -->
+      <div
+        class="flex flex-col sm:flex-row justify-between w-full gap-8 sm:gap-4"
+      >
+        <!-- Menu -->
+        <div
+          class="flex flex-col gap-3 md:gap-4 text-center sm:text-start rtl:sm:text-right"
+        >
+          <h2 class="text-base md:text-lg mb-1 text-white font-bold">
+            {{ t("footer.menu") }}
+          </h2>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] hover:text-white cursor-pointer transition-colors"
+          >
+            {{ t("footer.getInspired") }}
           </p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">0000000</p>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] hover:text-white cursor-pointer transition-colors"
+          >
+            {{ t("footer.ourProducts") }}
+          </p>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] hover:text-white cursor-pointer transition-colors"
+          >
+            {{ t("footer.betterWorld") }}
+          </p>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] hover:text-white cursor-pointer transition-colors"
+          >
+            {{ t("footer.contact") }}
+          </p>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] hover:text-white cursor-pointer transition-colors"
+          >
+            {{ t("footer.blog") }}
+          </p>
+        </div>
+
+        <!-- Location -->
+        <div
+          class="flex flex-col gap-3 md:gap-4 text-center sm:text-start rtl:sm:text-right"
+        >
+          <h2 class="text-base md:text-lg mb-1 text-white font-bold">
+            {{ t("footer.location") }}
+          </h2>
+          <p class="font-medium text-xs md:text-sm text-[#FFFFFF95]">
+            lorem ipsum
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <div
+          class="flex flex-col gap-3 md:gap-4 text-center sm:text-start rtl:sm:text-right"
+        >
+          <h2 class="text-base md:text-lg mb-1 text-white font-bold">
+            {{ t("footer.contactUs") }}
+          </h2>
+          <p
+            class="font-medium text-xs md:text-sm text-[#FFFFFF95] max-w-[200px] sm:max-w-32 mx-auto sm:mx-0"
+          >
+            {{ t("footer.contactDescription") }}
+          </p>
+          <p class="font-medium text-xs md:text-sm text-[#FFFFFF95]">0000000</p>
         </div>
       </div>
+
+      <!-- Footer Bottom -->
       <div
-        class="flex w-full justify-between items-center mt-16 pt-6 border-t border-[#FFFFFF95]"
+        class="flex flex-col sm:flex-row w-full justify-between items-center gap-4 sm:gap-0 mt-8 md:mt-12 lg:mt-16 pt-4 md:pt-6 border-t border-[#FFFFFF95]"
       >
         <p
-          class="font-medium text-sm uppercase tracking-[2.42px] text-[#FFFFFF95]"
+          class="font-medium text-xs md:text-sm uppercase tracking-[2px] md:tracking-[2.42px] text-[#FFFFFF95] text-center sm:text-start rtl:sm:text-right"
         >
-          Privacy policy
+          {{ t("footer.privacyPolicy") }}
         </p>
-        <div class="flex justify-center items-center gap-2">
+
+        <!-- Social Icons -->
+        <div class="flex justify-center items-center gap-2 md:gap-3">
           <div
-            class="w-10 h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer"
+            class="w-8 h-8 md:w-10 md:h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer hover:bg-white hover:border-white group transition-all duration-300"
           >
             <svg
-              width="15px"
-              height="15px"
-              fill="white"
+              class="w-3 h-3 md:w-4 md:h-4 fill-white group-hover:fill-[#004876] transition-colors"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
             >
@@ -46,13 +94,12 @@
               />
             </svg>
           </div>
+
           <div
-            class="w-10 h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer"
+            class="w-8 h-8 md:w-10 md:h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer hover:bg-white hover:border-white group transition-all duration-300"
           >
             <svg
-              width="15px"
-              height="15px"
-              fill="white"
+              class="w-3 h-3 md:w-4 md:h-4 fill-white group-hover:fill-[#004876] transition-colors"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
             >
@@ -61,13 +108,12 @@
               />
             </svg>
           </div>
+
           <div
-            class="w-10 h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer"
+            class="w-8 h-8 md:w-10 md:h-10 border border-[#FFFFFF95] rounded-full flex justify-center items-center cursor-pointer hover:bg-white hover:border-white group transition-all duration-300"
           >
             <svg
-              width="15px"
-              height="15px"
-              fill="white"
+              class="w-3 h-3 md:w-4 md:h-4 fill-white group-hover:fill-[#004876] transition-colors"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
             >
@@ -79,8 +125,10 @@
         </div>
       </div>
     </div>
+
+    <!-- Coffee Image -->
     <img
-      class="absolute top-[-60%] right-6"
+      class="absolute top-[-30%] sm:top-[-40%] md:top-[-50%] lg:top-[-60%] right-2 rtl:right-auto rtl:left-2 sm:right-4 rtl:sm:left-4 md:right-6 rtl:md:left-6 w-24 sm:w-32 md:w-40 lg:w-auto opacity-50 md:opacity-100 transform rtl:scale-x-[-1]"
       src="../assets/imgs/coffee3.png"
       alt=""
     />
@@ -88,40 +136,22 @@
 </template>
 
 <script setup>
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 
-gsap.registerPlugin(ScrollTrigger);
-
-onMounted(() => {
-  gsap.from("footer", {
-    scrollTrigger: {
-      trigger: "footer",
-      start: "top 90%",
-    },
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power2.out",
-  });
-
-  gsap.from("footer > *", {
-    scrollTrigger: {
-      trigger: "footer",
-      start: "top 85%",
-    },
-    y: 30,
-    opacity: 0,
-    duration: 0.6,
-    stagger: 0.15,
-    ease: "power2.out",
-  });
-});
+const { t } = useI18n();
 </script>
 
 <style lang="scss" scoped>
 footer {
   background: linear-gradient(90deg, #004876 0%, #1e71a6 100%);
+}
+
+/* RTL adjustments for flex items */
+[dir="rtl"] {
+  .flex-col.sm\:flex-row {
+    > * {
+      text-align: right;
+    }
+  }
 }
 </style>
