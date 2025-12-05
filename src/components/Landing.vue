@@ -1,32 +1,32 @@
 <template>
-  <section class="lg:h-screen relative">
+  <section class="lg:h-screen relative overflow-hidden">
     <Navbar />
     <div
-      class="h-full w-full lg:pl-36 flex lg:flex-row flex-col justify-between items-center pb-20"
+      class="h-full w-full lg:ps-36 flex lg:flex-row flex-col justify-between items-center pb-20"
     >
       <!-- text -->
       <div class="flex flex-col gap-5 lg:w-1/2 lg:mt-0 mt-10 lg:mb-10">
         <!-- title -->
         <h1
-          class="lg:text-8xl text-5xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
+          class="landing-title lg:text-8xl text-5xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
         >
-          Coffee
-          <br />
-          &Shop
+          {{ $t("landing.title") }}
         </h1>
         <!-- desc -->
-        <p class="max-w-64 text-[#292625] lg:text-base text-sm">
-          Get your ordered (better) coffee delivered to you if you want.
+        <p class="landing-desc max-w-64 text-[#292625] lg:text-base text-sm">
+          {{ $t("landing.description") }}
         </p>
         <!-- button & icon -->
-        <div class="flex justify-center items-center gap-3 w-fit">
+        <div
+          class="landing-buttons flex justify-center items-center gap-3 w-fit"
+        >
           <button
-            class="lg:py-3 py-2 lg:px-7 px-5 rounded-2xl border border-[#6F4336] text-[#6f4336] lg:text-base text-sm font-medium flex justify-center items-center gap-4"
+            class="lg:py-3 py-2 lg:px-7 px-5 rounded-2xl border border-[var(--secondary)] text-[var(--secondary)] lg:text-base text-sm font-medium flex justify-center items-center gap-4"
           >
-            SHOP 20% OFF
+            {{ $t("landing.shopButton") }}
             <svg
               class="lg:w-4 w-3 lg:h-4 h-3 rotate-45"
-              fill="#6f4336"
+              fill="var(--secondary)"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
             >
@@ -52,8 +52,12 @@
         </div>
       </div>
       <!-- swiper -->
-      <div class="product-slider-container lg:!w-1/2">
+      <div
+        class="product-slider-container lg:!w-1/2"
+        :dir="isRTL ? 'rtl' : 'ltr'"
+      >
         <Swiper
+          :key="locale"
           :modules="modules"
           centeredSlides="false"
           :slides-per-view="2"
@@ -93,14 +97,17 @@
 
     <!-- mask img -->
     <img
-      class="absolute right-0 top-0 w-[50%] z-[-1] pointer-events-none lg:block hidden"
+      class="mask-img absolute top-0 w-[50%] z-[-1] pointer-events-none lg:block hidden origin-center"
+      :class="isRTL ? '!scale-x-[-1] left-0' : 'right-0'"
       :src="mask"
-      alt=""
     />
   </section>
 </template>
 
 <script setup>
+import gsap from "gsap";
+import { computed, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import Navbar from "../components/Navbar.vue";
 
 import {
@@ -117,6 +124,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const modules = [Navigation, Pagination, EffectCoverflow, Autoplay];
+const { locale } = useI18n();
+
+// Compute RTL direction based on locale
+const isRTL = computed(() => locale.value === "ar");
 
 import {
   default as bag1,
@@ -126,6 +137,54 @@ import {
 import mask from "../assets/imgs/mask.png";
 
 const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
+
+// GSAP Animations
+onMounted(() => {
+  // Animate title
+  gsap.from(".landing-title", {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    ease: "power3.out",
+    delay: 0.2,
+  });
+
+  // Animate description
+  gsap.from(".landing-desc", {
+    opacity: 0,
+    y: 30,
+    duration: 0.8,
+    ease: "power2.out",
+    delay: 0.5,
+  });
+
+  // Animate buttons
+  gsap.from(".landing-buttons", {
+    opacity: 0,
+    y: 30,
+    duration: 0.8,
+    ease: "power2.out",
+    delay: 0.8,
+  });
+
+  // Animate slider with stagger effect
+  gsap.from(".product-slider-container", {
+    opacity: 0,
+    x: 100,
+    duration: 1,
+    ease: "power3.out",
+    delay: 0.6,
+  });
+
+  // Animate mask image
+  gsap.from(".mask-img", {
+    opacity: 0,
+    scaleY: 1.1,
+    duration: 1.2,
+    ease: "power2.out",
+    delay: 0.3,
+  });
+});
 </script>
 
 <style lang="scss" scoped>
@@ -182,11 +241,11 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   border-radius: 50%;
   z-index: 0;
   transition: all 1000ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  background: linear-gradient(90deg, #6f4336 0%, #3b2f2f 100%);
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   transform: translateY(0);
   pointer-events: none;
 }
-@media(max-width: 1024px) {
+@media (max-width: 1024px) {
   .bg-shape {
     width: 150px;
     height: 150px;
@@ -196,7 +255,7 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
 .swiper-slide-active .bg-shape {
   width: 500px;
   height: 500px;
-  background: linear-gradient(90deg, #004876 0%, #1e71a6 100%);
+  background: linear-gradient(90deg, var(--blue) 0%, #1e71a6 100%);
   transform: translateY(-8px);
   z-index: 1;
 }
@@ -232,7 +291,7 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
   opacity: 1;
   width: 600px;
 }
-@media( max-width: 1024px) {
+@media (max-width: 1024px) {
   .swiper-slide-active .coffee-img {
     width: 350px;
   }
@@ -270,7 +329,7 @@ const products = [{ img: bag1 }, { img: bag2 }, { img: bag3 }];
 
 .custom-prev:hover,
 .custom-next:hover {
-  background: #004876;
+  background: var(--blue);
   color: white;
 }
 </style>

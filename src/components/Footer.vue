@@ -1,34 +1,56 @@
 <template>
   <footer class="py-16 flex justify-center items-center relative">
-    <div class="flex w-full flex-col  justify-center items-center max-w-[650px]">
-      <div class="flex md:flex-row flex-col md:gap-0 gap-8 justify-between w-full">
-        <div class="flex lg:text-start text-center flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">Menu</h2>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Get inspired</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Our products</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">For a better world</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Contact</p>
-          <p class="font-medium text-sm text-[#FFFFFF95]">Blog</p>
+    <div
+      class="footer-content flex w-full flex-col justify-center items-center max-w-[650px]"
+    >
+      <div
+        class="flex md:flex-row flex-col md:gap-0 gap-8 justify-between w-full"
+      >
+        <div
+          class="footer-column flex lg:text-start text-center flex-col gap-4"
+        >
+          <h2 class="text-lg mb-1 text-white">{{ $t("footer.menu") }}</h2>
+          <p class="font-medium text-sm text-[#FFFFFF95]">
+            {{ $t("footer.getInspired") }}
+          </p>
+          <p class="font-medium text-sm text-[#FFFFFF95]">
+            {{ $t("footer.ourProducts") }}
+          </p>
+          <p class="font-medium text-sm text-[#FFFFFF95]">
+            {{ $t("footer.betterWorld") }}
+          </p>
+          <p class="font-medium text-sm text-[#FFFFFF95]">
+            {{ $t("footer.contact") }}
+          </p>
+          <p class="font-medium text-sm text-[#FFFFFF95]">
+            {{ $t("footer.blog") }}
+          </p>
         </div>
-        <div class="flex lg:text-start text-center flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">CafeLocatotion</h2>
+        <div
+          class="footer-column flex lg:text-start text-center flex-col gap-4"
+        >
+          <h2 class="text-lg mb-1 text-white">{{ $t("footer.location") }}</h2>
           <p class="font-medium text-sm text-[#FFFFFF95]">lorem ipsum</p>
         </div>
-        <div class="flex lg:text-start text-center lg:items-start items-center flex-col gap-4">
-          <h2 class="text-lg mb-1 text-white">Contact</h2>
+        <div
+          class="footer-column flex lg:text-start text-center lg:items-start items-center flex-col gap-4"
+        >
+          <h2 class="text-lg mb-1 text-white">
+            {{ $t("footer.contactHeading") }}
+          </h2>
           <p class="font-medium text-sm text-[#FFFFFF95] max-w-32">
-            Do you have a question? Send it to us!
+            {{ $t("footer.contactDesc") }}
           </p>
           <p class="font-medium text-sm text-[#FFFFFF95]">0000000</p>
         </div>
       </div>
       <div
-        class="flex w-full justify-between items-center mt-16 pt-6 border-t border-[#FFFFFF95]"
+        class="footer-bottom flex w-full justify-between items-center mt-16 pt-6 border-t border-[#FFFFFF95]"
       >
         <p
           class="font-medium text-sm uppercase tracking-[2.42px] text-[#FFFFFF95]"
         >
-          Privacy policy
+          {{ $t("footer.privacy") }}
         </p>
         <div class="flex justify-center items-center gap-2">
           <div
@@ -79,14 +101,62 @@
         </div>
       </div>
     </div>
-    <img class="absolute right-2 top-[-60%] lg:block hidden" src="../assets/imgs/coffee3.png" alt="">
+    <img
+      class="footer-coffee-img absolute right-2 top-[-60%] lg:block hidden"
+      src="../assets/imgs/coffee3.png"
+      alt=""
+    />
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { nextTick, onMounted } from "vue";
+
+gsap.registerPlugin(ScrollTrigger);
+
+onMounted(async () => {
+  await nextTick();
+
+  setTimeout(() => {
+    // Animate footer columns
+    gsap.from(".footer-column", {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".footer-content",
+        start: "top 80%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Animate bottom section
+    gsap.from(".footer-bottom", {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".footer-bottom",
+        start: "top 90%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Refresh ScrollTrigger
+    ScrollTrigger.refresh();
+  }, 100);
+});
+</script>
 
 <style lang="scss" scoped>
 footer {
-  background: linear-gradient(90deg, #004876 0%, #1e71a6 100%);
+  background: linear-gradient(90deg, var(--blue) 0%, #1e71a6 100%);
 }
 </style>

@@ -2,13 +2,14 @@
   <Navbar />
   <section class="py-8 mb-50 px-6 max-w-7xl mx-auto">
     <div v-if="!product" class="text-center text-gray-500">
-      Loading product...
+      {{ $t("product.loading") }}
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
       <!-- Gallery -->
-      <div>
+      <div class="product-gallery" :dir="isRTL ? 'rtl' : 'ltr'">
         <Swiper
+          :key="locale"
           :modules="[Autoplay]"
           :slides-per-view="1"
           :loop="true"
@@ -32,16 +33,18 @@
       </div>
 
       <!-- Details -->
-      <div>
-        <h1 class="text-2xl font-bold text-[#3B2F2F]">{{ product.title }}</h1>
+      <div class="product-details">
+        <h1 class="text-2xl font-bold text-[var(--primary)]">
+          {{ product.title }}
+        </h1>
         <p class="text-gray-600 mt-3">{{ product.description }}</p>
 
         <div class="mt-4 flex items-center gap-4">
-          <div class="text-2xl font-semibold text-[#3B2F2F]">
+          <div class="text-2xl font-semibold text-[var(--primary)]">
             ${{ product.price }}
           </div>
           <div v-if="product.discount" class="text-sm text-red-500">
-            {{ product.discount }}% off
+            {{ product.discount }}% {{ $t("product.discount") }}
           </div>
         </div>
 
@@ -57,7 +60,7 @@
             @click="addToCart"
             class="bg-blue-600 text-white px-4 py-2 rounded"
           >
-            Add to cart
+            {{ $t("product.addToCart") }}
           </button>
         </div>
 
@@ -92,31 +95,35 @@
 
     <!-- Customer Reviews Section -->
     <div v-if="product" class="mt-16">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-[#3B2F2F]">Customer Reviews</h2>
+      <div class="reviews-heading text-center mb-8">
+        <h2 class="text-3xl font-bold text-[var(--primary)]">
+          {{ $t("reviews.heading") }}
+        </h2>
         <p class="text-[#7c6a6a] mt-2">
-          What our customers say about this product
+          {{ $t("reviews.subheading") }}
         </p>
       </div>
 
       <div
         v-if="reviews.length"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        class="reviews-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <div
           v-for="(review, i) in reviews"
           :key="i"
-          class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border-t-4 border-[#004876]"
+          class="review-card bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border-t-4 border-[var(--blue)]"
         >
           <!-- Reviewer Info -->
           <div class="flex items-center gap-3 mb-4">
             <div
-              class="w-12 h-12 rounded-full bg-[#6F4336] flex items-center justify-center text-white font-bold text-lg"
+              class="w-12 h-12 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white font-bold text-lg"
             >
               {{ review.author.charAt(0).toUpperCase() }}
             </div>
             <div>
-              <h4 class="font-semibold text-[#3B2F2F]">{{ review.author }}</h4>
+              <h4 class="font-semibold text-[var(--primary)]">
+                {{ review.author }}
+              </h4>
               <div class="flex gap-1 mt-1">
                 <svg
                   v-for="star in 5"
@@ -159,8 +166,10 @@
             d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
           />
         </svg>
-        <h3 class="text-xl font-semibold text-gray-600">No reviews yet</h3>
-        <p class="text-gray-500 mt-2">Be the first to review this product!</p>
+        <h3 class="text-xl font-semibold text-gray-600">
+          {{ $t("reviews.noReviews") }}
+        </h3>
+        <p class="text-gray-500 mt-2">{{ $t("reviews.beFirst") }}</p>
       </div>
     </div>
   </section>
@@ -174,9 +183,17 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import Footer from "../components/Footer.vue";
 import Navbar from "../components/Navbar.vue";
 
-import { onMounted, ref } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { useProductStore } from "../stores/product";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const { locale } = useI18n();
+const isRTL = computed(() => locale.value === "ar");
 
 const route = useRoute();
 const id = route.params.id;
@@ -239,6 +256,75 @@ onMounted(async () => {
             },
           ];
   }
+
+  // Wait for DOM to update
+  await nextTick();
+
+  // GSAP Animations
+  setTimeout(() => {
+    // Animate gallery
+    gsap.from(".product-gallery", {
+      opacity: 0,
+      x: -50,
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".product-gallery",
+        start: "top 80%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Animate product details
+    gsap.from(".product-details", {
+      opacity: 0,
+      x: 50,
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".product-details",
+        start: "top 80%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Animate reviews heading
+    gsap.from(".reviews-heading", {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".reviews-heading",
+        start: "top 80%",
+        once: true,
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Animate review cards
+    const reviewCards = document.querySelectorAll(".review-card");
+    if (reviewCards.length > 0) {
+      gsap.from(reviewCards, {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".reviews-grid",
+          start: "top 80%",
+          once: true,
+          toggleActions: "play none none none",
+        },
+      });
+    }
+
+    // Refresh ScrollTrigger
+    ScrollTrigger.refresh();
+  }, 100);
 });
 </script>
 

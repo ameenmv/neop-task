@@ -5,18 +5,13 @@ import App from "./App.vue";
 import router from "./Router";
 import "./style.css";
 
-// Minimal i18n messages (LTR and RTL example)
+// Import translation files
+import ar from "./locales/ar.json";
+import en from "./locales/en.json";
+
 const messages = {
-  en: {
-    message: {
-      hello: "hello",
-    },
-  },
-  ar: {
-    message: {
-      hello: "مرحبا",
-    },
-  },
+  en,
+  ar,
 };
 
 const i18n = createI18n({
