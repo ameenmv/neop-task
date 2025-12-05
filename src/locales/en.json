@@ -1,0 +1,49 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "contact": "Contact"
+  },
+  "landing": {
+    "title": "Coffee & Shop",
+    "description": "Get your ordered (better) coffee delivered to you if you want.",
+    "shopButton": "SHOP 20% OFF"
+  },
+  "categories": {
+    "heading": "Our products",
+    "subheading": "Special to Try",
+    "all": "All categories"
+  },
+  "about": {
+    "heading": "Welcome to Our shop",
+    "subheading": "The coffee you want, when you want it",
+    "quality": "Quality",
+    "qualityDesc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "quantity": "Quantity",
+    "loading": "Loading product...",
+    "price": "Price",
+    "discount": "off"
+  },
+  "reviews": {
+    "heading": "Customer Reviews",
+    "subheading": "What our customers say about this product",
+    "noReviews": "No reviews yet",
+    "beFirst": "Be the first to review this product!"
+  },
+  "footer": {
+    "menu": "Menu",
+    "getInspired": "Get inspired",
+    "ourProducts": "Our products",
+    "betterWorld": "For a better world",
+    "contact": "Contact",
+    "blog": "Blog",
+    "location": "CafeLocation",
+    "contactHeading": "Contact",
+    "contactDesc": "Do you have a question? Send it to us!",
+    "privacy": "Privacy policy"
+  }
+}
