@@ -1,5 +1,5 @@
 <template>
-  <nav class="px-17 py-6 bg-transparent z-50">
+  <nav class="md:px-17 px-10 py-6 bg-transparent z-50">
     <div class="flex justify-between items-center">
       <!-- logo -->
       <img

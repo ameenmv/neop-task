@@ -1,8 +1,8 @@
 <template>
   <footer class="py-16 flex justify-center items-center relative">
-    <div class="flex w-full flex-col justify-center items-center max-w-[650px]">
-      <div class="flex justify-between w-full">
-        <div class="flex flex-col gap-4">
+    <div class="flex w-full flex-col  justify-center items-center max-w-[650px]">
+      <div class="flex md:flex-row flex-col md:gap-0 gap-8 justify-between w-full">
+        <div class="flex lg:text-start text-center flex-col gap-4">
           <h2 class="text-lg mb-1 text-white">Menu</h2>
           <p class="font-medium text-sm text-[#FFFFFF95]">Get inspired</p>
           <p class="font-medium text-sm text-[#FFFFFF95]">Our products</p>
@@ -10,11 +10,11 @@
           <p class="font-medium text-sm text-[#FFFFFF95]">Contact</p>
           <p class="font-medium text-sm text-[#FFFFFF95]">Blog</p>
         </div>
-        <div class="flex flex-col gap-4">
+        <div class="flex lg:text-start text-center flex-col gap-4">
           <h2 class="text-lg mb-1 text-white">CafeLocatotion</h2>
           <p class="font-medium text-sm text-[#FFFFFF95]">lorem ipsum</p>
         </div>
-        <div class="flex flex-col gap-4">
+        <div class="flex lg:text-start text-center lg:items-start items-center flex-col gap-4">
           <h2 class="text-lg mb-1 text-white">Contact</h2>
           <p class="font-medium text-sm text-[#FFFFFF95] max-w-32">
             Do you have a question? Send it to us!
@@ -79,7 +79,7 @@
         </div>
       </div>
     </div>
-    <img class="absolute" src="../assets/imgs/coffee3.png" alt="">
+    <img class="absolute right-2 top-[-60%] lg:block hidden" src="../assets/imgs/coffee3.png" alt="">
   </footer>
 </template>
 

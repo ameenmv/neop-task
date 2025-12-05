@@ -1,15 +1,17 @@
 <template>
   <section class="py-8">
-    <div class="flex justify-center items-center flex-col gap-2">
-      <p class="text-lg text-[#3B2F2F]">Our products</p>
-      <h2 class="text-[32px] font-bold text-[#3B2F2F]">Special to Try</h2>
-      <div class="flex justify-center items-center gap-12">
+    <div class="flex justify-center items-center flex-col gap-1">
+      <p class="lg:text-lg text-base text-[#3B2F2F]">Our products</p>
+      <h2 class="lg:text-[32px] text-[26px] font-bold text-[#3B2F2F]">
+        Special to Try
+      </h2>
+      <div class="flex justify-center items-center lg:gap-12 gap-6 flex-wrap">
         <p
           v-for="(category, index) in categories"
           :key="index"
           @click="activeIndex = index"
           :class="{ active: activeIndex === index }"
-          class="font-medium text-xl cursor-pointer text"
+          class="font-medium lg:text-xl text-base cursor-pointer text mt-2"
         >
           {{ category }}
         </p>
@@ -18,22 +20,32 @@
         <TransitionGroup
           name="product"
           tag="div"
-          class="flex gap-7 justify-center"
+          class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 justify-items-center text-center"
         >
           <div
             v-for="product in displayedProducts"
             :key="product.id"
-            class="w-64 p-4 border rounded-lg"
+            class="w-64 p-4 rounded-lg cursor-pointer"
+            @click="openProduct(product)"
           >
-            <img
-              :src="product.image"
-              :alt="product.title"
-              class="w-full h-48 object-contain"
-            />
-            <h3 class="mt-4 font-semibold text-lg truncate">
+            <div class="relative w-full flex justify-center items-center h-48">
+              <img
+                :src="product.image"
+                :alt="product.title"
+                class="rounded-[50px] w-[92%] h-[95%] object-contain bg-white"
+              />
+              <div
+                class="absolute left-0 top-0 w-full h-full rounded-4xl z-[-2] bg-[#004876]"
+              ></div>
+              <div
+                class="absolute left-0 top-0 rounded-[50px] w-[95%] h-[94%] z-[-1] bg-[#6F4336]"
+              ></div>
+            </div>
+            <h3 class="mt-4 font-medium  lg:text-[22px] text-[20px] line-clamp-1">
               {{ product.title }}
             </h3>
-            <div v-if="product.rating" class="flex items-center gap-2 mt-2">
+            <p v-if="product.category" class="text-[#8B8BA5] lg:text-lg text-sm">{{ product.category }}</p>
+             <div v-if="product.rating" class="flex justify-center items-center gap-2 mt-2">
               <div class="flex gap-1">
                 <svg
                   v-for="star in 5"
@@ -52,11 +64,7 @@
                   />
                 </svg>
               </div>
-              <span class="text-sm text-gray-600">
-                {{ product.rating.rate }} ({{ product.rating.count }})
-              </span>
             </div>
-            <p class="text-gray-600 mt-2">${{ product.price }}</p>
           </div>
         </TransitionGroup>
       </div>
@@ -66,6 +74,11 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useProductStore } from "../stores/product";
+
+const router = useRouter();
+const store = useProductStore();
 
 const categories = ref([
   "All categories",
@@ -75,27 +88,27 @@ const categories = ref([
   "Coffee equipment",
 ]);
 const activeIndex = ref(0);
-const products = ref([]);
 
 const displayedProducts = computed(() => {
+  const products = store.products;
+  if (!products || !products.length) return [];
   if (activeIndex.value === 0) {
-    // Show first 4 products for "All categories"
-    return products.value.slice(0, 4);
+    return products.slice(0, 4);
   } else {
-    // Show 4 products based on the category index
     const start = activeIndex.value * 4;
     const end = start + 4;
-    return products.value.slice(start, end);
+    return products.slice(start, end);
   }
 });
 
-onMounted(() => {
-  fetch("https://fakestoreapi.com/products")
-    .then((res) => res.json())
-    .then((data) => {
-      products.value = data;
-    });
+onMounted(async () => {
+  await store.fetchProducts();
+  console.log("Products fetched:", store.products);
 });
+
+function openProduct(product) {
+  router.push({ name: "ProductDetails", params: { id: product.id } });
+}
 </script>
 
 <style lang="scss" scoped>
