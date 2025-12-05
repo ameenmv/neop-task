@@ -16,11 +16,11 @@
           {{ category }}
         </p>
       </div>
-      <div class="mt-12 overflow-hidden relative w-full">
+      <div class="mt-12 flex justify-center items-center overflow-hidden relative w-full">
         <TransitionGroup
           name="product"
           tag="div"
-          class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-7 justify-items-center text-center"
+          class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg:w-[90%] gap-7 justify-items-center text-center"
         >
           <div
             v-for="product in displayedProducts"
