@@ -10,7 +10,7 @@
         {{ $t("categories.subheading") }}
       </h2>
       <div
-        class="category-tabs flex justify-center items-center lg:gap-12 gap-6 flex-wrap"
+        class="category-tabs flex justify-center items-center lg:gap-12 gap-6 flex-wrap row-gap-2"
       >
         <p
           v-for="(category, index) in categories"
@@ -20,7 +20,7 @@
             active: activeIndex === index,
             text: activeIndex !== index,
           }"
-          class="category-tab font-medium lg:text-xl text-base cursor-pointer mt-2"
+          class="category-tab font-medium lg:text-xl text-base cursor-pointer mt-2 "
         >
           {{ category }}
         </p>
