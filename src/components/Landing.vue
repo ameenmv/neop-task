@@ -7,11 +7,11 @@
       <!-- text -->
       <div class="flex flex-col gap-5 lg:w-1/2 lg:mt-0 mt-10 lg:mb-10">
         <!-- title -->
-        <h1
-          class="landing-title lg:text-8xl text-5xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
+        <p
+          class="landing-title lg:text-8xl lg:max-w-[400px] max-w-[300px] text-5xl leading-[102%] font-bold text-[var(--blue)] tracking-[8px]"
         >
           {{ $t("landing.title") }}
-        </h1>
+        </p>
         <!-- desc -->
         <p class="landing-desc max-w-64 text-[#292625] lg:text-base text-sm">
           {{ $t("landing.description") }}
@@ -25,7 +25,7 @@
           >
             {{ $t("landing.shopButton") }}
             <svg
-              class="lg:w-4 w-3 lg:h-4 h-3 rotate-45"
+              class="lg:w-4 w-3 lg:h-4 h-3 rotate-45 rtl:scale-x-[-1]"
               fill="var(--secondary)"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -299,9 +299,9 @@ onMounted(() => {
 
 .nav-controls {
   position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
+  top: 10%;
+  right: -35px;
+  width: 230px;
   display: flex;
   justify-content: space-between;
   transform: translateY(-50%);
@@ -309,12 +309,29 @@ onMounted(() => {
   padding: 0 50px;
   pointer-events: none;
 }
+html:dir(rtl) .nav-controls {
+  right: auto;
+  left: -35px;
+}
+@media (max-width: 1280px) {
+  html:dir(rtl) .nav-controls {
+    right: auto;
+    left: 0;
+  }
+}
+@media (max-width: 1024px) {
+  .nav-controls {
+    top: 12%;
+    width: 100%;
+    right: 0;
+  }
+}
 
 .custom-prev,
 .custom-next {
   pointer-events: auto;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--blue);
+  color: white;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -324,12 +341,72 @@ onMounted(() => {
   justify-content: center;
   font-size: 1.2rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 1000s ease;
+  transition: all 0.3s ease;
 }
 
 .custom-prev:hover,
 .custom-next:hover {
-  background: var(--blue);
+  background: var(--primary);
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.custom-prev.swiper-button-disabled,
+.custom-next.swiper-button-disabled {
+  opacity: 0.8;
+  color: #3b2f2f;
+  background: transparent !important;
+  border: 1px solid #3b2f2f;
+}
+
+.landing-buttons button {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-buttons button:hover {
+  background: var(--secondary);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.landing-buttons button:hover svg {
+  fill: white;
+}
+
+.landing-buttons button:hover svg {
+  transform: rotate(45deg) translate(3px, -3px);
+  transition: transform 0.3s ease;
+}
+
+.landing-buttons button svg {
+  transition: transform 0.3s ease;
+}
+
+.landing-buttons > div {
+  transition: all 0.3s ease;
+}
+
+.landing-buttons > div:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 16px rgba(0, 70, 118, 0.3);
+}
+
+.landing-buttons > div:hover svg {
+  animation: swing 0.6s ease;
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
 }
 </style>
